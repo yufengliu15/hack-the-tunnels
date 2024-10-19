@@ -18,7 +18,7 @@ function BuildTimetable() {
   const [selectedEvents, setSelectedEvents] = useState<ScheduledEvent[]>([]);
   const navigate = useNavigate();
 
-  const fetchScheduledEvents = async (subjectCode: String) => {
+  const fetchScheduledEvents = async (subjectCode: string) => {
     const result = await ServiceAPI.fetchScheduledEvents(subjectCode);
     setScheduledEvents(result);
   };

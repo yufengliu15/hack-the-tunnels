@@ -18,13 +18,13 @@ function BuildTimetable() {
   const [selectedEvents, setSelectedEvents] = useState<ScheduledEvent[]>([]);
   const navigate = useNavigate();
 
-  const fetchScheduledEvents = async (subjectCode: string) => {
-    const result = await ServiceAPI.fetchScheduledEvents(subjectCode);
+  const fetchScheduledEvents = async (subjectCode: string, days: string, time: string) => {
+    const result = await ServiceAPI.fetchScheduledEvents(subjectCode, days, time);
     setScheduledEvents(result);
   };
-  
+
   <SearchSection onSearch={fetchScheduledEvents} />
-  
+
 
   const createTimetable = async () => {
     const result = await ServiceAPI.createTimetable(

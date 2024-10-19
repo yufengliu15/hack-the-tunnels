@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Err, Ok, Result } from "ts-results";
 import { AccountService } from "../services";
-import { JWT_SECRET } from "../config/jwt";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const verify = async (
   token: string,

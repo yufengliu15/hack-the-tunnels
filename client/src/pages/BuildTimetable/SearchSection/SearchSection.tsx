@@ -5,27 +5,20 @@ interface SearchSectionProps {
   onSearch: (subjectCode: string) => void;
 }
 
-const subjectCodes = ["COMP", "MATH", "PHYS", "CHEM", "BIOL"];
-
 function SearchSection({ onSearch }: SearchSectionProps) {
-  const [selectedSubjectCode, setSelectedSubjectCode] = useState(subjectCodes[0]);
-
+  const [inputValue, setInputValue] = useState("");
   const handleSearch = () => {
-    onSearch(selectedSubjectCode);
+    onSearch(inputValue);
   };
 
   return (
     <div className="SearchSection">
-      <select
-        value={selectedSubjectCode}
-        onChange={(e) => setSelectedSubjectCode(e.target.value)}
-      >
-        {subjectCodes.map((code) => (
-          <option key={code} value={code}>
-            {code}
-          </option>
-        ))}
-      </select>
+      <input
+        type="text"
+        placeholder="Enter subject code"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+      />
       <button onClick={handleSearch}>Search</button>
     </div>
   );

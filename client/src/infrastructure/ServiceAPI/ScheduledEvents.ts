@@ -23,10 +23,25 @@ export interface ScheduledEvent {
   };
 }
 
-export const fetchScheduledEvents = async (subjectCode: string): Promise<ScheduledEvent[]> => {
-  const queryParam = subjectCode ? `?subjectCode=${encodeURIComponent(subjectCode)}` : "";
+export const fetchScheduledEvents = async (
+  subjectCode: string,
+  date: string,
+  time: string
+): Promise<ScheduledEvent[]> => {
+  const queryParams = new URLSearchParams();
+  
+  if (subjectCode) {
+    queryParams.append("subjectCode", encodeURIComponent(subjectCode));
+  }
+  if (date) {
+    queryParams.append("date", encodeURIComponent(date));
+  }
+  if (time) {
+    queryParams.append("time", encodeURIComponent(time));
+  }
+
   const response = await fetch(
-    `${import.meta.env.VITE_API_ROOT}/api/v1/scheduledEvents${queryParam}`,
+    `${import.meta.env.VITE_API_ROOT}/api/v1/scheduledEvents?${queryParams.toString()}`
   );
   const json = await response.json();
 
@@ -37,6 +52,7 @@ export const fetchScheduledEvents = async (subjectCode: string): Promise<Schedul
   const data = formatScheduledEvents(json.data);
   return data;
 };
+
 
 const formatScheduledEvents = (events: any[]): ScheduledEvent[] => {
   return events.map((event) => {

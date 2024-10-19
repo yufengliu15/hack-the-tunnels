@@ -11,7 +11,7 @@ function NotFound() {
     <div className="NotFound">
       <Container className="NotFound__container">
         <div className="NotFound__content glass-card animate-fadeInUp">
-          <img src="/carleton_logo_black.png" alt="Carleton University" className="img-fluid NotFound__logo" />
+          <img src="/carleton_logo.png" alt="Carleton University" className="img-fluid NotFound__logo" />
           <h1>404 - Page Not Found</h1>
           <p>
             Oops! The page you're looking for doesn't exist. It might have been removed, renamed, or did not exist in the first place.

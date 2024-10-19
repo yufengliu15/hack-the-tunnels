@@ -1,7 +1,7 @@
 import { Ok, Err, Result } from "ts-results";
 import jwt from "jsonwebtoken";
 import { AccountService } from "../services";
-import { JWT_SECRET } from "../config/jwt";
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export const login = async (
   email: string,

@@ -1,6 +1,9 @@
 import express, { Request, Response } from "express";
 import { error, success } from "../utils";
 import { AuthorizationService, TimetableService } from "../../services";
+const nodemailer = require("nodemailer")
+const EMAIL_USER = process.env.EMAIL_USER;
+const APP_PASSWORD = process.env.APP_PASSWORD;
 
 const router = express.Router();
 
@@ -52,6 +55,32 @@ const create = async (request: Request, response: Response) => {
       statusCode: 400,
     });
   }
+
+  const transporter = nodemailer.createTransport({
+    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: EMAIL_USER,
+      pass: APP_PASSWORD,
+    },
+  });
+
+  const mailOptions = {
+    from: "yufeng.liu15@gmail.com",
+    to: "yufeng.liu15@gmail.com",
+    subject: "Timetable creation email",
+    text: "This is an email notification to alert you that a new timetable has been created. ",
+  };
+
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email: ", error);
+    } else {
+      console.log("Email sent: ", info.response);
+    }
+  });
 
   return success(response, {
     data: result.val,

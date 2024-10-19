@@ -50,6 +50,19 @@
         font-size: 0.9em;
         text-align: center;
 
+        &--error {
+          color: #f44336; 
+          background-color: rgba(244, 67, 54, 0.1);
+          border: 1px solid #f44336;
+        }
+    
+        &--success {
+          color: #4CAF50;
+          background-color: rgba(76, 175, 80, 0.1);
+          border: 1px solid #4CAF50;
+        }
+      
+
         a {
           color: #2672ec;
           text-decoration: none;

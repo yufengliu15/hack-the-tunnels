@@ -4,18 +4,32 @@ import { Base as Layout } from "@/layouts";
 import "./Login.style.scss";
 import { Container, Form, Button, InputGroup } from 'react-bootstrap';
 import { FaUser, FaLock, FaSignInAlt } from 'react-icons/fa';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { useNavigate } from 'react-router-dom';
+
 
 function Login() {
   const [message, setMessage] = useState(null);
   const { login } = useAccountContext();
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [isError, setIsError] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   const attemptLogin = async () => {
     try {
-      const message = await login("admin@email.com", "password");
+      const message = await login(email, password);
+      console.log(message);
       setMessage(message);
+      if (message.toLocaleLowerCase() !== "account not found") {
+        setIsError(false);  
+        navigate('/');
+      } else {
+        setIsError(true);  // Failed login, display error
+      }
     } catch (error) {
       console.log(error);
+      setIsError(true);
     }
   };
 
@@ -28,16 +42,30 @@ function Login() {
             <h4>Welcome to the Carleton SSO Federated Portal</h4>
             <p>Enter your <a href="https://myone.carleton.ca" target="_blank" rel="noopener noreferrer">MyCarletonOne</a> username and password.</p>
           </div>
-          {message && <p className="text-danger">{message}</p>}
+          {message && (
+            <p className={`Login__message ${isError ? 'Login__message--error' : 'Login__message--success'}`}>
+              {message}
+            </p>
+          )}
           <Form>
             <div className="Login__panel__content__input">
               <InputGroup>
                 <InputGroup.Text><FaUser /></InputGroup.Text>
-                <Form.Control type="text" placeholder="MyCarletonOne username" />
+                <Form.Control 
+                  type="text" 
+                  placeholder="MyCarletonOne username" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)} // Update email state
+                />
               </InputGroup>
               <InputGroup>
                 <InputGroup.Text><FaLock /></InputGroup.Text>
-                <Form.Control type="password" placeholder="Password" />
+                <Form.Control 
+                  type="password" 
+                  placeholder="Password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </InputGroup>
             </div>
             <div className="Login__panel__content__checkbox">

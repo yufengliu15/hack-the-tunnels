@@ -1,0 +1,19 @@
+FROM node:22
+WORKDIR /hack-the-tunnels/service
+COPY package*.json ./
+RUN npm install
+COPY . ./
+# Generate Prisma client
+RUN npx prisma generate
+
+# Copy the rest of the application
+COPY . .
+
+# Create a script to run migrations and start the app
+RUN echo '#!/bin/sh\nnpx prisma migrate deploy\nnpm run dev' > /service/start.sh
+RUN chmod +x /service/start.sh
+
+EXPOSE 5000
+
+# Use the script as the entry point
+CMD ["/service/start.sh"]
